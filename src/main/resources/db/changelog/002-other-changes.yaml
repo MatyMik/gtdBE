@@ -1,0 +1,198 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 003-create-areas
+      author: gtd
+      changes:
+        - createTable:
+            tableName: areas
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_area_user
+                    references: users(id)
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+
+  - changeSet:
+      id: 004-create-projects
+      author: gtd
+      changes:
+        - createTable:
+            tableName: projects
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: area_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_project_area
+                    references: areas(id)
+              - column:
+                  name: name
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+              - column:
+                  name: depends_on_someone
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: completed
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+
+        - createIndex:
+            tableName: projects
+            indexName: idx_projects_area_id
+            columns:
+              - column:
+                  name: area_id
+
+  - changeSet:
+      id: 005-create-tasks
+      author: gtd
+      changes:
+        - createTable:
+            tableName: tasks
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_task_project
+                    references: projects(id)
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: due_date
+                  type: DATE
+              - column:
+                  name: is_next_action
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: depends_on_someone
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: completed
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+
+        - createIndex:
+            tableName: tasks
+            indexName: idx_tasks_project_id
+            columns:
+              - column:
+                  name: project_id
+
+        - createIndex:
+            tableName: tasks
+            indexName: idx_tasks_due_date
+            columns:
+              - column:
+                  name: due_date
+
+  - changeSet:
+      id: 006-create-attachments
+      author: gtd
+      changes:
+        - createTable:
+            tableName: attachments
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: task_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_attachment_task
+                    references: tasks(id)
+              - column:
+                  name: file_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_path
+                  type: VARCHAR(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uploaded_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - createIndex:
+            tableName: attachments
+            indexName: idx_attachments_task_id
+            columns:
+              - column:
+                  name: task_id

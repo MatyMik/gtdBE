@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-roles
+      author: Miklos Matyas
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
