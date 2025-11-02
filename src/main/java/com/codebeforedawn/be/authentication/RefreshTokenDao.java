@@ -44,23 +44,23 @@ public class RefreshTokenDao {
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.isExpired()) {
             refreshTokenRepository.delete(token);
-            throw new RuntimeException("Refresh token was expired. Please log in again.");
+            throw new IllegalArgumentException("Refresh token was expired. Please log in again.");
         }
         return token;
     }
 
     public RefreshToken findByToken(String token) {
         return refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
     }
 
     public RefreshToken verifyRefreshToken(String token) {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Refresh token not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Refresh token not found"));
 
         if (refreshToken.getExpiryDate().isBefore(Instant.now())) {
             refreshTokenRepository.delete(refreshToken); // optional: revoke immediately
-            throw new RuntimeException("Refresh token has expired");
+            throw new IllegalArgumentException("Refresh token has expired");
         }
 
         return refreshToken;

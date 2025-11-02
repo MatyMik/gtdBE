@@ -1,6 +1,8 @@
 package com.codebeforedawn.be.user;
 
+import com.codebeforedawn.be.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,10 @@ public class UserDao {
         return userRepository.existsByEmail(email);
     }
 
-    public User loadUserByUsername(String email) throws UsernameNotFoundException {
+    public User loadUserByUsername(String email) {
         return userRepository.findByEmail(email)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
     }
 
     public User save(User user) {
