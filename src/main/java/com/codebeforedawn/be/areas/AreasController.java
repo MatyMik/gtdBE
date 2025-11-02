@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/areas")
+@RequestMapping("/api/areas")
 @RequiredArgsConstructor
 public class AreasController {
 

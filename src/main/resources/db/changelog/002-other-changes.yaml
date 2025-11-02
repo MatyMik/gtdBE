@@ -71,9 +71,11 @@ databaseChangeLog:
                   type: BOOLEAN
                   defaultValueBoolean: true
               - column:
-                  name: depends_on_someone
-                  type: BOOLEAN
-                  defaultValueBoolean: false
+                  name: assignee_type
+                  type: VARCHAR(100)
+              - column:
+                  name: assignee_id
+                  type: BIGINT
               - column:
                   name: completed
                   type: BOOLEAN
@@ -127,9 +129,11 @@ databaseChangeLog:
                   type: BOOLEAN
                   defaultValueBoolean: false
               - column:
-                  name: depends_on_someone
-                  type: BOOLEAN
-                  defaultValueBoolean: false
+                  name: assignee_type
+                  type: VARCHAR(100)
+              - column:
+                  name: assignee_id
+                  type: BIGINT
               - column:
                   name: completed
                   type: BOOLEAN
