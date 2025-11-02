@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/003-user_roles.yaml
   - include:
       file: db/changelog/004-refresh-token.yaml
+  - include:
+      file: db/changelog/005-assignees.yaml

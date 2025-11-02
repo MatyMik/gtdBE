@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-assignees-table
+      author: Miklos Daniel Matyas
+      changes:
+        - createTable:
+            tableName: assignees
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
