@@ -42,7 +42,10 @@ public class WebSecurityConfig {
 
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()  // public auth endpoints
+                        .requestMatchers("/api/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**").permitAll()  // public auth endpoints
                         .anyRequest().authenticated()                 // everything else requires auth
                 )
 
