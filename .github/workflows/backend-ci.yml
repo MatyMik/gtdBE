@@ -44,8 +44,25 @@ jobs:
           java-version: 21
           cache: maven
 
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: Build with Maven
         run: mvn -B clean verify
+
+      - name: SonarCloud Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-provided by GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # Your SonarCloud token
+        run: |
+          mvn -B verify sonar:sonar \
+            -Dsonar.projectKey=<your_project_key> \
+            -Dsonar.organization=<your_org> \
+            -Dsonar.host.url=https://sonarcloud.io
 
       - name: Package application
         run: mvn package -DskipTests
