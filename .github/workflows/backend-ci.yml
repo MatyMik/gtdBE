@@ -9,8 +9,8 @@ env:
   POSTGRES_USER: testuser
   POSTGRES_PASSWORD: testpass
   POSTGRES_DB: testdb
-  JWT_ACCESS_SECRET: {{secrets.JWT_ACCESS_SECRET}}
-  JWT_REFRESH_SECRET: {{secrets.JWT_REFRESH_SECRET}}
+  JWT_ACCESS_SECRET: ${{secrets.JWT_ACCESS_SECRET}}
+  JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
 
 jobs:
   build:
